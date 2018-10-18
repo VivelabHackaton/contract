@@ -65,4 +65,15 @@ contract Electoral is Ownable {
         return ElectoralProcess[_code].candidates[_candidateId].votesCounter;
     }
 
+    function getResults(bytes32 _code) public onlyOwner view returns  (bytes32[], uint[]) {
+        bytes32[] memory candidateKeys = ElectoralProcess[_code].candidateKeys;
+        bytes32[] memory identifications = new bytes32[](candidateKeys.length);
+        uint[] memory votes = new uint[](candidateKeys.length);
+        for(uint i=0; i < candidateKeys.length; i++) {
+            identifications[i] = candidateKeys[i];
+            votes[i] = ElectoralProcess[_code].candidates[candidateKeys[i]].votesCounter;
+        }
+        return (identifications, votes);
+    }
+
 }

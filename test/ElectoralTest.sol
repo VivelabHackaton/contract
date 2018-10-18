@@ -44,6 +44,18 @@ contract ElectoralTest {
         Assert.notEqual(initialVotes, finalVotes, "El voto no fue registrado");
     }
 
+    function testThatOwnerCanRetrieveProcessResults() public {
+        electoral.addProcess(process.code, process.start, process.end, process.name, process.candidates);
+        bytes32[] memory identifications;
+        uint[] memory votes;
+        electoral.vote(process.code, process.voter, process.candidates[0]);
+        electoral.vote(process.code, process.second_voter, process.candidates[1]);
+        (identifications, votes) = electoral.getResults(process.code);
+        Assert.notEqual(identifications.length, 0, "No hay votos");
+        Assert.notEqual(votes.length, 0, "No hay votos");
+        Assert.equal(votes[0], 1, "Hay una diferencia en los votos");
+    }
+
     struct Process {
         bytes32 code;
         uint start;
@@ -51,6 +63,7 @@ contract ElectoralTest {
         bytes32 name;
         bytes32[] candidates;
         bytes32 voter;
+        bytes32 second_voter;
     }
 
     function mockProcessForm() private {
