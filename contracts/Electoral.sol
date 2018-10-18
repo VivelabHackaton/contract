@@ -55,7 +55,7 @@ contract Electoral is Ownable {
         return  ElectoralProcess[_code].candidates[_candidateId].isCandidate;
     }
 
-    function vote(bytes32 _code, bytes32 voter, bytes32 _candidateId) {
+    function vote(bytes32 _code, bytes32 voter, bytes32 _candidateId) public {
         ElectoralProcess[_code].voters[voter] = Voter({hasVoted: true});
         ElectoralProcess[_code].candidates[_candidateId].votesCounter++;
     }
