@@ -56,6 +56,7 @@ contract Electoral is Ownable {
     }
 
     function vote(bytes32 _code, bytes32 voter, bytes32 _candidateId) public {
+        require(ElectoralProcess[_code].voters[voter].hasVoted != true);
         ElectoralProcess[_code].voters[voter] = Voter({hasVoted: true});
         ElectoralProcess[_code].candidates[_candidateId].votesCounter++;
     }
